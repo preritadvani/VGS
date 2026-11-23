@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vedanta Ganita Samanwaya, 2026 Exploratory Phase &mdash; Ergodic Theory</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --bg: #fcfbf9;
+      --paper: #ffffff;
+      --ink: #1e242b;
+      --muted: #52606d;
+      --accent: #1d4ed8;
+      --accent-soft: #eff6ff;
+      --border: #e2e8f0;
+      --theorem-bg: #f8fafc;
+      --theorem-border: #3b82f6;
+      --def-bg: #f0fdf4;
+      --def-border: #16a34a;
+      --remark-bg: #fffbeb;
+      --remark-border: #d97706;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: "Georgia", "Times New Roman", serif;
+      line-height: 1.72;
+      font-size: 17px;
+    }
+
+    .layout {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 2.5rem;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    /* Sidebar TOC */
+    aside.toc {
+      position: sticky;
+      top: 2rem;
+      align-self: start;
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.25rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.875rem;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    }
+
+    aside.toc h3 {
+      margin: 0 0 0.75rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    aside.toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    aside.toc li {
+      margin-bottom: 0.45rem;
+    }
+
+    aside.toc li.sub {
+      padding-left: 0.9rem;
+      font-size: 0.82rem;
+    }
+
+    aside.toc a {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    aside.toc a:hover {
+      color: var(--accent);
+    }
+
+    /* Main Paper */
+    main.paper {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3.25rem 3.75rem;
+      box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04);
+      min-width: 0;
+    }
+
+    header.doc-header {
+      text-align: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    header.doc-header .subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    header.doc-header h1 {
+      margin: 0.25rem 0 0.75rem;
+      font-size: 2.05rem;
+      line-height: 1.25;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    header.doc-header .meta {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    h2 {
+      font-size: 1.48rem;
+      margin-top: 2.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+      color: #0f172a;
+    }
+
+    h3 {
+      font-size: 1.18rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: #1e293b;
+    }
+
+    h4 {
+      font-size: 1.05rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #334155;
+    }
+
+    p {
+      margin: 0 0 1.15rem;
+    }
+
+    ul, ol {
+      margin: 0 0 1.25rem;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Callout Environments */
+    .env {
+      margin: 1.5rem 0;
+      padding: 1.15rem 1.4rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--theorem-border);
+      background-color: var(--theorem-bg);
+    }
+
+    .env.definition {
+      border-left-color: var(--def-border);
+      background-color: var(--def-bg);
+    }
+
+    .env.remark {
+      border-left-color: var(--remark-border);
+      background-color: var(--remark-bg);
+    }
+
+    .env-title {
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.45rem;
+      display: block;
+    }
+
+    .env-body {
+      font-style: italic;
+    }
+
+    .env.definition .env-body,
+    .env.remark .env-body {
+      font-style: normal;
+    }
+
+    /* Proof Environment */
+    .proof {
+      margin: 1.25rem 0 1.75rem;
+      padding: 0.25rem 0 0.25rem 1.1rem;
+      border-left: 2px solid #cbd5e1;
+    }
+
+    .proof-title {
+      font-style: italic;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .qed {
+      float: right;
+      font-style: normal;
+      color: #334155;
+    }
+
+    .proof::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .claim-label {
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    .frontier-block {
+      margin: 1.35rem 0;
+    }
+
+    .frontier-title {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .references ol, .online-refs ul {
+      font-size: 0.96rem;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      aside.toc {
+        position: static;
+      }
+      main.paper {
+        padding: 2rem 1.5rem;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        font-size: 11pt;
+      }
+      .layout {
+        display: block;
+        padding: 0;
+      }
+      aside.toc {
+        display: none;
+      }
+      main.paper {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="toc" aria-label="Table of Contents">
+      <h3>Contents</h3>
+      <ul>
+        <li><a href="#sec-1">1. Introduction</a></li>
+        <li><a href="#sec-2">2. The Engine: Measure-Preserving Systems</a></li>
+        <li class="sub"><a href="#sec-2-1">2.1 Intuitive Picture</a></li>
+        <li class="sub"><a href="#sec-2-2">2.2 Formal Framework</a></li>
+        <li class="sub"><a href="#sec-2-3">2.3 Canonical State Spaces</a></li>
+        <li class="sub"><a href="#sec-2-4">2.4 The Core Theorems</a></li>
+        <li><a href="#sec-3">3. Dirichlet Approximation</a></li>
+        <li><a href="#sec-4">4. Weyl's Equidistribution</a></li>
+        <li><a href="#sec-5">5. Normal Numbers</a></li>
+        <li><a href="#sec-6">6. Open Frontiers</a></li>
+        <li><a href="#sec-refs">References</a></li>
+      </ul>
+    </aside>
+
+    <main class="paper">
+      <header class="doc-header">
+        <div class="subtitle">Vedanta Ganita Samanwaya, 2026 Exploratory Phase</div>
+        <h1>Unifying Number Theory and Dynamics Through the Ergodic Engine</h1>
+        <div class="meta">Prerit Advani &bull; November 2026</div>
+      </header>
+
+      <!-- SECTION 1 -->
+      <section id="sec-1">
+        <h2>1. Introduction</h2>
+        <p>
+          We are going to explore a technique which can be used in solving several &ldquo;unrelated looking&rdquo; problems in Mathematics. Some of the examples we will be exploring through this expedition are as follows:
+        </p>
+        <ul>
+          <li>
+            If you release a billion gas molecules initially trapped in the left half of a sealed box, will every single molecule ever spontaneously rush back into that left half at the exact same instant? Everyday experience screams no, yet Henri Poincar&eacute; proved a shocking mathematical yes: because the box has finite volume and the laws of motion preserve phase-space volume, the system is guaranteed to return arbitrarily close to its initial state infinitely often.
+          </li>
+          <li>
+            How good can we guarantee rational approximates of irrational numbers to be given that the denominator is allowed to be at most $q$? Can we do any better than the naive $\frac{1}{2q}$ error?
+          </li>
+          <li>
+            If you compute the first thousand powers of $2$&mdash;$2, 4, 8, 16, 32, \dots$&mdash;do they start with the digit $1$ just as often as they start with the digit $9$, or do certain leading digits dominate?
+          </li>
+          <li>
+            In the decimal expansion of a typical real number, do the digits $0$ through $9$ each appear $10\%$ of the time, and does every two-digit block like $42$ appear $1\%$ of the time?
+          </li>
+        </ul>
+        <p>
+          Every single one of these problems was originally solved in a completely separate mathematical world, decades apart, using totally different toolkits before ergodic theory unified them. Borel (1909) and Weyl (1916) predate Birkhoff&rsquo;s theorem. So, there might be an open problem today that we are currently looking at through the wrong lens, one that could become vastly more transparent once translated into the language of measure-preserving dynamics.
+        </p>
+        <p>
+          At its heart, ergodic theory asks a simple geometric question: when a deterministic rule moves points around a finite space without creating or destroying volume, what happens in the long run? Because total volume is finite, orbits cannot wander off to infinity; they must return to where they began, and if the transformation mixes the space thoroughly enough, the time average along a single trajectory equals the spatial average across the entire universe of states.
+        </p>
+        <p>
+          We will follow this single idea as it unlocks problem after problem across seemingly distant fields. After setting up the formal machinery of measure-preserving dynamical systems in Section 2, we use Poincar&eacute;&rsquo;s Recurrence Theorem in Section 3 to deduce Dirichlet&rsquo;s Approximation Theorem from rotations on the unit circle. In Section 4, we upgrade the qualitative return to uniform statistical spread via Weyl&rsquo;s Equidistribution Theorem, resolving the puzzle of the leading digits for powers of $2$. In Section 5, we switch our dynamical engine from circle rotations to the base-$b$ shift map, applying Birkhoff&rsquo;s Pointwise Ergodic Theorem to prove Borel&rsquo;s Normal Number Theorem. Finally, in Section 6, we close by looking at open frontiers where this same dynamical lens continues to drive modern breakthroughs.
+        </p>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section id="sec-2">
+        <h2>2. The Engine: Measure-Preserving Dynamical Systems</h2>
+
+        <h3 id="sec-2-1">2.1 Intuitive Picture</h3>
+        <p>
+          Intuitively, a state space $X$ is the complete collection of all possible instantaneous configurations (&ldquo;snapshots&rdquo;) that a system can ever occupy.
+        </p>
+        <ul>
+          <li>A single point $x \in X$ encapsulates everything required to determine the system&rsquo;s entire future under a deterministic evolution rule $T$.</li>
+          <li>As discrete time ticks forward ($n = 0, 1, 2, \dots$), an initial state $x$ traces out a trajectory called its orbit given by $x, T(x), T^2(x), \dots$ inside $X$.</li>
+        </ul>
+
+        <h3 id="sec-2-2">2.2 Formal Framework</h3>
+        <p>
+          To analyze long-term statistical behavior, we endow the state space with a notion of size and require the evolution rule to preserve that size.
+        </p>
+
+        <div class="env definition" id="def-2-1">
+          <span class="env-title">Definition 2.1 (Measure-Preserving Dynamical System).</span>
+          <div class="env-body">
+            A measure-preserving dynamical system is a quadruple $(X, \mathcal{B}, \mu, T)$ consisting of:
+            <ol>
+              <li>A state space $X$ representing the set of all possible configurations.</li>
+              <li>A $\sigma$-algebra $\mathcal{B}$ of measurable subsets (events) of $X$.</li>
+              <li>A finite measure $\mu$ on $(X, \mathcal{B})$ with $0 < \mu(X) < \infty$. Normalizing so that $\mu(X) = 1$, we treat $(X, \mathcal{B}, \mu)$ as a probability space.</li>
+              <li>A measurable transformation $T : X \to X$ that is measure-preserving, meaning $\mu(T^{-1}(A)) = \mu(A)$ for all $A \in \mathcal{B}$.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="env remark" id="rem-2-2">
+          <span class="env-title">Remark 2.2.</span>
+          <div class="env-body">
+            Note why we require $\mu(T^{-1}(A)) = \mu(A)$ rather than $\mu(T(A)) = \mu(A)$: when $T$ is non-invertible (such as the base-$b$ shift map below), preimages $T^{-1}(A)$ behave cleanly under set operations and preserve $\sigma$-algebras, whereas forward images $T(A)$ need not even be measurable.
+          </div>
+        </div>
+
+        <h3 id="sec-2-3">2.3 Canonical State Spaces and Our Two Main Engines</h3>
+        <p>
+          Although this framework originates in statistical physics where $X$ is the high-dimensional physical phase space of positions and momenta of gas molecules equipped with Liouville volume, number theory and combinatorics rely on remarkably simple state spaces:
+        </p>
+        <ul>
+          <li>
+            <strong>The Unit Circle $\mathbb{T} = \mathbb{R}/\mathbb{Z}$:</strong> Identified with the interval $[0, 1)$ equipped with standard Lebesgue length measure $\mu([a, b)) = b - a$.
+          </li>
+        </ul>
+
+        <div class="env" id="lem-2-3">
+          <span class="env-title">Lemma 2.3 (Fourier Basis and Parseval&rsquo;s Identity on $\mathbb{T}$).</span>
+          <div class="env-body">
+            Let $\mathbb{T} = \mathbb{R}/\mathbb{Z}$ be equipped with normalized Lebesgue measure $\mu$, and consider the Hilbert space $L^2(\mathbb{T}, \mu)$ with inner product $\langle f, g \rangle = \int_{\mathbb{T}} f(x)\overline{g(x)}\,d\mu(x)$. For each $k \in \mathbb{Z}$, define the $k$-th Fourier coefficient of $f \in L^2(\mathbb{T}, \mu)$ by
+            $$\hat{f}(k) = \int_{\mathbb{T}} f(x)e^{-2\pi i k x}\,d\mu(x).$$
+            Then the family $\{e_k : k \in \mathbb{Z}\}$, where $e_k(x) = e^{2\pi i k x}$, forms a complete orthonormal basis of $L^2(\mathbb{T}, \mu)$:
+            <ol>
+              <li>Orthonormality: $\langle e_j, e_k \rangle = \delta_{jk}$ for all $j, k \in \mathbb{Z}$.</li>
+              <li>Parseval&rsquo;s Identity: $\|f\|_{L^2(\mu)}^2 = \sum_{k \in \mathbb{Z}} |\hat{f}(k)|^2$ for every $f \in L^2(\mathbb{T}, \mu)$.</li>
+              <li>Uniqueness: If $\hat{f}(k) = 0$ for all $k \in \mathbb{Z}$, then $f = 0$ $\mu$-almost everywhere.</li>
+            </ol>
+          </div>
+        </div>
+
+        <ul>
+          <li>
+            <strong>The Sequence Space $\{0, 1\}^{\mathbb{N}}$:</strong> The space of infinite binary sequences $x = (x_1, x_2, \dots)$, which encodes either base-$2$ digit expansions or indicator functions of subsets $E \subseteq \mathbb{N}$.
+          </li>
+        </ul>
+        <p>
+          Throughout this report, we repeatedly apply the same dynamical tools to two primary transformations on $[0, 1)$:
+        </p>
+        <ol>
+          <li><strong>Circle Rotation:</strong> $R_{\alpha}(x) = (x + \alpha) \bmod 1$ for a fixed shift $\alpha \in \mathbb{R}$.</li>
+          <li><strong>The Doubling / Base-$b$ Shift Map:</strong> $T_b(x) = bx \bmod 1$ for an integer base $b \ge 2$.</li>
+        </ol>
+
+        <h3 id="sec-2-4">2.4 The Core Theorems</h3>
+
+        <h4>2.4.1 Poincar&eacute; Recurrence Theorem</h4>
+        <p>
+          The first principle of finite measure-preserving dynamics is that trajectories cannot wander away forever: any region of positive size must be revisited by almost every point starting inside it.
+        </p>
+
+        <div class="env definition" id="def-2-4">
+          <span class="env-title">Definition 2.4 (Recurrent Point).</span>
+          <div class="env-body">
+            Let $(X, \mathcal{B}, \mu, T)$ be a measure-preserving dynamical system and let $A \in \mathcal{B}$. A point $x \in A$ is called recurrent with respect to $A$ if there exists an integer $n \ge 1$ such that $T^n(x) \in A$ (and infinitely recurrent if $T^n(x) \in A$ for infinitely many $n \ge 1$).
+          </div>
+        </div>
+
+        <div class="env" id="thm-2-5">
+          <span class="env-title">Theorem 2.5 (Poincar&eacute; Recurrence Theorem).</span>
+          <div class="env-body">
+            Let $(X, \mathcal{B}, \mu, T)$ be a measure-preserving dynamical system with $\mu(X) < \infty$, and let $A \in \mathcal{B}$ be a measurable set with $\mu(A) > 0$. Then $\mu$-almost every point in $A$ returns to $A$ infinitely many times. More precisely,
+            $$\mu\bigl(\{x \in A \mid T^n(x) \in A \text{ for at most finitely many } n \ge 1\}\bigr) = 0.$$
+          </div>
+        </div>
+
+        <div class="proof">
+          <p>
+            <span class="proof-title">Proof.</span> Let $A \in \mathcal{B}$ be a measurable set with $\mu(A) > 0$. Consider the subset $B \subseteq A$ consisting of all points in $A$ that never return to $A$:
+            $$B = \{x \in A : T^n(x) \notin A \text{ for all } n \ge 1\} = A \setminus \bigcup_{n=1}^{\infty} T^{-n}(A) \in \mathcal{B}.$$
+          </p>
+          <p>
+            <span class="claim-label">Claim 1:</span> $B \cap T^{-n}(B) = \emptyset$ for every integer $n \ge 1$.
+          </p>
+          <p>
+            Suppose for contradiction that there exists $x \in B \cap T^{-n}(B)$ for some $n \ge 1$. Then $x \in B$ and $T^n(x) \in B$. However, by definition of $B$, $x \in B$ implies $T^n(x) \notin A$ for all $n \ge 1$. Since $B \subseteq A$, it follows that $T^n(x) \notin B$, a contradiction.
+          </p>
+          <p>
+            <span class="claim-label">Claim 2:</span> The preimages $\{T^{-n}(B)\}_{n=0}^{\infty}$ are pairwise disjoint, i.e., $T^{-n}(B) \cap T^{-m}(B) = \emptyset$ for all integers $n > m \ge 0$.
+          </p>
+          <p>
+            Suppose for contradiction that there exists $x \in T^{-n}(B) \cap T^{-m}(B)$ with $n > m \ge 0$. Let $k = n - m \ge 1$ and set $y = T^m(x)$. Then $y = T^m(x) \in B$, while
+            $$T^k(y) = T^{n-m}(T^m(x)) = T^n(x) \in B,$$
+            which implies $y \in B \cap T^{-k}(B)$, contradicting Claim 1.
+          </p>
+          <p>
+            Now, because $T$ is measure-preserving, $\mu(T^{-n}(B)) = \mu(B)$ for every $n \ge 0$. By Claim 2, the sets $\{T^{-n}(B)\}_{n=0}^{\infty}$ are pairwise disjoint subsets of $X$, so countable additivity of $\mu$ yields
+            $$\sum_{n=0}^{\infty} \mu(B) = \sum_{n=0}^{\infty} \mu\bigl(T^{-n}(B)\bigr) = \mu\left(\bigcup_{n=0}^{\infty} T^{-n}(B)\right) \le \mu(X) < \infty.$$
+            Since an infinite sum of identical non-negative terms $\mu(B)$ is finite, we must have $\mu(B) = 0$. Thus, almost every point of $A$ returns to $A$ at least once.
+          </p>
+          <p>
+            Finally, to show that almost every point of $A$ returns infinitely often, apply the same argument to the invariant map $T^k$ (which is also measure-preserving) for each $k \ge 1$. For each $k \ge 1$, the set
+            $$B_k = \{x \in A : T^{nk}(x) \notin A \text{ for all } n \ge 1\}$$
+            satisfies $\mu(B_k) = 0$. Therefore, the set of points in $A$ that visit $A$ only finitely many times is contained in $\bigcup_{k=1}^{\infty} B_k$, which has measure zero by countable subadditivity. Hence, $\mu$-almost every $x \in A$ returns to $A$ infinitely many times. <span class="qed">&#9633;</span>
+          </p>
+        </div>
+
+        <h4>2.4.2 Birkhoff&rsquo;s Pointwise Ergodic Theorem</h4>
+
+        <div class="env definition" id="def-2-6">
+          <span class="env-title">Definition 2.6 (Invariant Set and Ergodicity).</span>
+          <div class="env-body">
+            Let $(X, \mathcal{B}, \mu, T)$ be a measure-preserving probability space (so $\mu(X) = 1$). A measurable set $A \in \mathcal{B}$ is called $T$-invariant if
+            $$T^{-1}(A) = A.$$
+            The measure-preserving transformation $T$ (or the system $(X, \mathcal{B}, \mu, T)$) is called ergodic if every $T$-invariant set $A \in \mathcal{B}$ satisfies either
+            $$\mu(A) = 0 \quad \text{or} \quad \mu(A) = 1.$$
+          </div>
+        </div>
+
+        <div class="env" id="thm-2-7">
+          <span class="env-title">Theorem 2.7 (Birkhoff&rsquo;s Pointwise Ergodic Theorem).</span>
+          <div class="env-body">
+            Let $(X, \mathcal{B}, \mu, T)$ be an ergodic measure-preserving probability space, and let $f : X \to \mathbb{R}$ be any $\mu$-integrable observable function ($f \in L^1(X, \mu)$). Then for $\mu$-almost every starting point $x \in X$, the time average of $f$ along the orbit of $x$ converges to the spatial average of $f$ over $X$:
+            $$\lim_{N \to \infty} \frac{1}{N} \sum_{n=0}^{N-1} f\bigl(T^n(x)\bigr) = \int_X f \, d\mu.$$
+          </div>
+        </div>
+
+        <div class="env remark" id="rem-2-8">
+          <span class="env-title">Remark 2.8.</span>
+          <div class="env-body">
+            Proof is not included considering the document&rsquo;s length and its reading time. It can be found in the expository note <a href="#ref-yunis"><em>The Birkhoff Ergodic Theorem with Applications</em></a> by David Yunis.
+          </div>
+        </div>
+
+        <div class="env" id="cor-2-9">
+          <span class="env-title">Corollary 2.9 (Asymptotic Visit Frequencies).</span>
+          <div class="env-body">
+            In particular, taking $f = \mathbf{1}_A$ to be the indicator function of any measurable region $A \in \mathcal{B}$, Birkhoff&rsquo;s theorem states that for $\mu$-almost every $x \in X$,
+            $$\lim_{N \to \infty} \frac{1}{N} \#\{0 \le n < N : T^n(x) \in A\} = \mu(A).$$
+            That is, almost every trajectory spends a fraction of its time in $A$ equal to the geometric size $\mu(A)$ of $A$.
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section id="sec-3">
+        <h2>3. Application 1: Dirichlet Approximation</h2>
+        <p>
+          An interesting application of Poincar&eacute;&rsquo;s Recurrence Theorem in number theory is Dirichlet&rsquo;s Approximation Theorem:
+        </p>
+
+        <div class="env" id="thm-3-1">
+          <span class="env-title">Theorem 3.1 (Dirichlet&rsquo;s Approximation Theorem).</span>
+          <div class="env-body">
+            For any real numbers $\alpha$ and $N$, with $1 \le N$, there exist integers $p$ and $q$ such that $1 \le q \le N$ and
+            $$|q\alpha - p| \le \frac{1}{\lfloor N \rfloor + 1} < \frac{1}{N}.$$
+          </div>
+        </div>
+
+        <div class="proof">
+          <p>
+            <span class="proof-title">Proof via Circle Rotations and Poincar&eacute; Recurrence.</span> Consider the unit circle $\mathbb{T} = \mathbb{R}/\mathbb{Z}$ identified with $[0, 1)$, equipped with the Borel $\sigma$-algebra $\mathcal{B}$ and Lebesgue measure $\mu$ ($\mu(\mathbb{T}) = 1$). Define the rotation map $R_{\alpha} : \mathbb{T} \to \mathbb{T}$ by
+            $$R_{\alpha}(x) = (x + \alpha) \bmod 1.$$
+            Since translations preserve interval lengths on $\mathbb{T}$, $(\mathbb{T}, \mathcal{B}, \mu, R_{\alpha})$ is a measure-preserving probability space.
+          </p>
+          <p>
+            Fix any integer $N \ge 1$ and let $A = \left[0, \frac{1}{N}\right) \subseteq \mathbb{T}$. Because $\mu(A) = \frac{1}{N} > 0$, Poincar&eacute;&rsquo;s Recurrence Theorem guarantees that almost every point in $A$ returns to $A$ infinitely often. In particular, there exist $x_0 \in A$ and an integer $q \ge 1$ such that $R_{\alpha}^q(x_0) \in A$.
+          </p>
+          <p>
+            Since both $x_0$ and $R_{\alpha}^q(x_0) = (x_0 + q\alpha) \bmod 1$ lie in the half-open arc $A$ of length $\frac{1}{N}$, their circular distance satisfies
+            $$\operatorname{dist}_{\mathbb{T}}\bigl(R_{\alpha}^q(x_0), x_0\bigr) < \frac{1}{N}.$$
+            Because $R_{\alpha}^q$ is a rigid rotation (an isometry of $\mathbb{T}$), the circular displacement $\operatorname{dist}_{\mathbb{T}}(R_{\alpha}^q(x), x)$ is independent of $x$. Evaluating at $x = 0$ gives
+            $$\operatorname{dist}_{\mathbb{T}}(q\alpha \bmod 1, 0) = \operatorname{dist}_{\mathbb{T}}\bigl(R_{\alpha}^q(0), 0\bigr) = \operatorname{dist}_{\mathbb{T}}\bigl(R_{\alpha}^q(x_0), x_0\bigr) < \frac{1}{N}.$$
+            By definition of distance on $\mathbb{R}/\mathbb{Z}$, there exists an integer $p \in \mathbb{Z}$ such that
+            $$|q\alpha - p| < \frac{1}{N}.$$
+          </p>
+          <p>
+            To ensure $q \le N$ explicitly, consider the $N+1$ arcs $I_k$ of length $\frac{1}{N}$ centered at $R_{\alpha}^k(0)$ for $k = 0, 1, \dots, N$. Since $\sum_{k=0}^{N} \mu(I_k) = \frac{N+1}{N} > 1 = \mu(\mathbb{T})$, two arcs $I_m$ and $I_n$ ($0 \le m < n \le N$) must intersect. Setting $q = n - m \in \{1, \dots, N\}$ and applying the isometry $R_{\alpha}^{-m}$ again yields $|q\alpha - p| < \frac{1}{N}$. (For non-integer $N \ge 1$, applying the same argument with $\lfloor N \rfloor + 1$ arcs gives $|q\alpha - p| \le \frac{1}{\lfloor N \rfloor + 1} < \frac{1}{N}$.) <span class="qed">&#9633;</span>
+          </p>
+        </div>
+
+        <div class="env" id="cor-3-2">
+          <span class="env-title">Corollary 3.2 (Quadratic Rational Approximation).</span>
+          <div class="env-body">
+            For every irrational number $\alpha \in \mathbb{R}$, there exist infinitely many rational numbers $\frac{p}{q}$ (with $\gcd(p, q) = 1$ and $q \ge 1$) such that
+            $$\left|\alpha - \frac{p}{q}\right| < \frac{1}{q^2}.$$
+          </div>
+        </div>
+
+        <div class="proof">
+          <p>
+            <span class="proof-title">Proof.</span> Dividing Dirichlet&rsquo;s inequality $|q\alpha - p| < \frac{1}{N}$ by $q$ and using $1 \le q \le N$ immediately yields
+            $$\left|\alpha - \frac{p}{q}\right| < \frac{1}{qN} \le \frac{1}{q^2}.$$
+            Because $\alpha$ is irrational, $|\alpha - p/q| > 0$. Thus, repeatedly choosing $N > \frac{1}{|q\alpha - p|}$ forces new solutions with arbitrarily large denominators $q$ (and reducing each resulting fraction to lowest terms only shrinks $q$, preserving the strict inequality). <span class="qed">&#9633;</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 4 -->
+      <section id="sec-4">
+        <h2>4. Application 2: Uniform Statistical Spread: Weyl&rsquo;s Equidistribution Theorem</h2>
+
+        <div class="env definition" id="def-4-1">
+          <span class="env-title">Definition 4.1 (Uniform Distribution Modulo 1).</span>
+          <div class="env-body">
+            A sequence of real numbers $(x_n)_{n=1}^{\infty}$ is said to be uniformly distributed modulo $1$ (or equidistributed in $[0, 1)$) if for every subinterval $[a, b) \subseteq [0, 1)$, the asymptotic proportion of the first $N$ fractional parts $\{x_n\} = x_n - \lfloor x_n \rfloor$ falling inside $[a, b)$ equals the length of the interval:
+            $$\lim_{N \to \infty} \frac{\#\{1 \le n \le N : \{x_n\} \in [a, b)\}}{N} = b - a.$$
+          </div>
+        </div>
+
+        <div class="env" id="thm-4-2">
+          <span class="env-title">Theorem 4.2 (Weyl&rsquo;s Equidistribution Theorem).</span>
+          <div class="env-body">
+            The sequence $a, 2a, 3a, \dots \pmod 1$ is uniformly distributed on the circle $\mathbb{R}/\mathbb{Z}$ when $a$ is an irrational number.
+          </div>
+        </div>
+
+        <div class="proof">
+          <p>
+            <span class="proof-title">Proof.</span> Let $a \in \mathbb{R} \setminus \mathbb{Q}$ be irrational, and consider the circle rotation $R_a : \mathbb{R}/\mathbb{Z} \to \mathbb{R}/\mathbb{Z}$ given by $R_a(x) = (x + a) \bmod 1$.
+          </p>
+          <p>
+            <span class="claim-label">Claim 1:</span> $R_a$ is ergodic with respect to $\mu$.
+          </p>
+          <p>
+            <em>Proof of Claim 1.</em> Let $E \subseteq \mathbb{R}/\mathbb{Z}$ be measurable with $\mu(R_a^{-1}(E) \triangle E) = 0$ and set $f = \mathbf{1}_E \in L^2(\mathbb{R}/\mathbb{Z}, \mu)$. Because $E$ is invariant under $R_a$, we have $f \circ R_a = f$ in $L^2(\mu)$. For any $k \in \mathbb{Z}$, the $k$-th Fourier coefficient of $f$ satisfies
+            $$\hat{f}(k) = \int_{\mathbb{R}/\mathbb{Z}} f(x)e^{-2\pi i k x}\,d\mu(x) = \int_{\mathbb{R}/\mathbb{Z}} f(R_a(x))e^{-2\pi i k x}\,d\mu(x).$$
+            Substituting $y = (x + a) \bmod 1$ (so $x \equiv y - a \pmod 1$ and $d\mu$ is unchanged) yields
+            $$\hat{f}(k) = \int_{\mathbb{R}/\mathbb{Z}} f(y)e^{-2\pi i k(y - a)}\,d\mu(y) = e^{2\pi i k a}\hat{f}(k),$$
+            and hence $(1 - e^{2\pi i k a})\hat{f}(k) = 0$. Since $a$ is irrational, $ka \notin \mathbb{Z}$ for every $k \neq 0$, so $e^{2\pi i k a} \neq 1$ and therefore $\hat{f}(k) = 0$ for all $k \neq 0$. Thus $f - \hat{f}(0)$ has vanishing Fourier coefficients for every $k \in \mathbb{Z}$. By completeness of $\{e^{2\pi i k x}\}_{k \in \mathbb{Z}}$ in $L^2(\mathbb{R}/\mathbb{Z}, \mu)$, we get $f = \hat{f}(0) = \mu(E)$ $\mu$-almost everywhere. Since $f \in \{0, 1\}$ a.e., it follows that $\mu(E) \in \{0, 1\}$, proving ergodicity. &#9633;
+          </p>
+          <p>
+            Fix any subinterval $[u, v) \subseteq [0, 1)$. By ergodicity of $R_a$ and <a href="#cor-2-9">Corollary 2.9</a>, for $\mu$-almost every $x \in \mathbb{R}/\mathbb{Z}$, the orbit $(x + na \bmod 1)_{n \ge 0}$ is uniformly distributed on $\mathbb{R}/\mathbb{Z}$. Fix such an $x$. Note that
+            $$na \bmod 1 \in [u, v) \iff (x + na) \bmod 1 \in \tau_x([u, v)),$$
+            where $\tau_x : \mathbb{R}/\mathbb{Z} \to \mathbb{R}/\mathbb{Z}$ is translation by $x \bmod 1$. Because $\mu$ is invariant under $\tau_x$ and boundary points have $\mu$-measure zero, $\tau_x([u, v))$ differs from a finite union of half-open intervals of total length $v - u$ by at most a $\mu$-null set. Applying the equidistribution of $(x + na \bmod 1)_{n \ge 0}$ to those half-open subintervals (and noting that omitting the $n = 0$ term does not affect the limit as $N \to \infty$) shows that
+            $$\lim_{N \to \infty} \frac{\#\{1 \le n \le N : na \bmod 1 \in [u, v)\}}{N} = v - u.$$
+            Hence $(na \bmod 1)_{n \ge 1}$ is uniformly distributed modulo $1$. <span class="qed">&#9633;</span>
+          </p>
+        </div>
+
+        <div class="env" id="cor-4-3">
+          <span class="env-title">Corollary 4.3 (Leading Digits of Powers of $2$ / Benford&rsquo;s Law).</span>
+          <div class="env-body">
+            For each leading decimal digit $d \in \{1, 2, \dots, 9\}$, the asymptotic proportion of powers of $2$ whose base-$10$ representation begins with $d$ is $\log_{10}\!\left(1 + \frac{1}{d}\right)$. In particular, $2^n$ starts with the digit $1$ roughly $30.1\%$ of the time, whereas it starts with the digit $9$ only about $4.6\%$ of the time.
+          </div>
+        </div>
+
+        <div class="proof">
+          <p>
+            <span class="proof-title">Proof.</span> A positive integer $2^n$ has leading decimal digit $d \in \{1, \dots, 9\}$ if and only if there exists an integer $k \ge 0$ such that
+            $$d \cdot 10^k \le 2^n < (d + 1) \cdot 10^k.$$
+            Taking base-$10$ logarithms across the inequality gives
+            $$k + \log_{10} d \le n \log_{10} 2 < k + \log_{10}(d + 1),$$
+            which holds if and only if the fractional part $\{n \log_{10} 2\}$ falls inside the subinterval $[\log_{10} d, \log_{10}(d + 1)) \subseteq [0, 1)$.
+          </p>
+          <p>
+            Because $\log_{10} 2$ is irrational (if $\log_{10} 2 = p/q$ for integers $p, q \ge 1$, then $2^q = 10^p$, contradicting unique prime factorization), <a href="#thm-4-2">Theorem 4.2</a> applies to $a = \log_{10} 2$. Hence, the asymptotic frequency of $n \ge 1$ for which $2^n$ begins with $d$ equals the length of the interval:
+            $$\log_{10}(d + 1) - \log_{10} d = \log_{10}\!\left(1 + \frac{1}{d}\right). \qquad \square$$
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 5 -->
+      <section id="sec-5">
+        <h2>5. Application 3: Normal Numbers</h2>
+        <p>
+          Let $b \ge 2$ be an integer base, and let $x \in \mathbb{R}$ be a real number. Express the fractional part of $x$ in its base-$b$ expansion:
+          $$\{x\} = 0.d_1 d_2 d_3 \dots_b = \sum_{i=1}^{\infty} \frac{d_i}{b^i},$$
+          where each digit $d_i \in \{0, 1, \dots, b - 1\}$. To ensure uniqueness for terminating representations, we adopt the convention that expansions do not end in an infinite string of $(b - 1)$&rsquo;s.
+        </p>
+        <p>
+          For a finite string (or block) of digits $w = w_1 w_2 \dots w_k$ of length $k \ge 1$ over the alphabet $\{0, 1, \dots, b - 1\}$, let $N_b(w, n)$ denote the number of occurrences of the block $w$ within the first $n$ digits $d_1 d_2 \dots d_n$ of the base-$b$ expansion of $x$.
+        </p>
+
+        <div class="env definition" id="def-5-1">
+          <span class="env-title">Definition 5.1 (Simply Normal Number).</span>
+          <div class="env-body">
+            A real number $x$ is said to be simply normal to base $b$ if every single digit $d \in \{0, 1, \dots, b - 1\}$ appears in its base-$b$ expansion with an asymptotic frequency of $\frac{1}{b}$; that is, for every $d \in \{0, 1, \dots, b - 1\}$,
+            $$\lim_{n \to \infty} \frac{N_b(d, n)}{n} = \frac{1}{b}.$$
+          </div>
+        </div>
+
+        <div class="env definition" id="def-5-2">
+          <span class="env-title">Definition 5.2 (Normal Number).</span>
+          <div class="env-body">
+            A real number $x$ is said to be normal to base $b$ (or base-$b$ normal) if every finite block of digits of length $k \ge 1$ appears in its base-$b$ expansion with an asymptotic frequency of $b^{-k}$; that is, for every integer $k \ge 1$ and every finite string $w \in \{0, 1, \dots, b - 1\}^k$,
+            $$\lim_{n \to \infty} \frac{N_b(w, n)}{n} = \frac{1}{b^k}.$$
+          </div>
+        </div>
+
+        <div class="env definition" id="def-5-3">
+          <span class="env-title">Definition 5.3 (Absolutely Normal Number).</span>
+          <div class="env-body">
+            A real number $x$ is said to be absolutely normal if it is normal to every integer base $b \ge 2$; that is, for every integer $b \ge 2$, every integer $k \ge 1$, and every finite string $w \in \{0, 1, \dots, b - 1\}^k$,
+            $$\lim_{n \to \infty} \frac{N_b(w, n)}{n} = \frac{1}{b^k}.$$
+          </div>
+        </div>
+
+        <div class="env" id="thm-5-4">
+          <span class="env-title">Theorem 5.4 (Borel&rsquo;s Normal Number Theorem).</span>
+          <div class="env-body">
+            Almost all real numbers are absolutely normal with respect to Lebesgue measure.
+          </div>
+        </div>
+
+        <div class="proof">
+          <p>
+            <span class="proof-title">Proof.</span> Fix an integer base $b \ge 2$, a block length $L \ge 1$, and a word $w = w_1 w_2 \dots w_L \in \{0, 1, \dots, b - 1\}^L$. Let $\mathbb{T} = \mathbb{R}/\mathbb{Z}$ be equipped with normalized Lebesgue measure $\mu$, and consider the base-$b$ shift map $T_b : \mathbb{T} \to \mathbb{T}$ given by
+            $$T_b(x) = bx \bmod 1.$$
+            The map $T_b$ preserves $\mu$ and is ergodic with respect to $\mu$ (which can be proved using Fourier coefficients on $\mathbb{T}$: if $E \subseteq \mathbb{T}$ is measurable with $T_b^{-1}(E) = E$ up to a $\mu$-null set and $f = \mathbf{1}_E$, then $\hat{f}(k) = \widehat{f \circ T_b}(k)$ forces $\hat{f}(k) = 0$ for all $k \neq 0$, so $f = \hat{f}(0) = \mu(E)$ $\mu$-a.e. and hence $\mu(E) \in \{0, 1\}$).
+          </p>
+          <p>
+            Define the cylinder interval $C_w \subseteq [0, 1)$ corresponding to base-$b$ digits $(w_1, \dots, w_L)$ immediately after the radix point by
+            $$C_w = \left[\sum_{j=1}^{L} \frac{w_j}{b^j}, \, \sum_{j=1}^{L} \frac{w_j}{b^j} + \frac{1}{b^L}\right).$$
+            Its Lebesgue measure is $\mu(C_w) = \frac{1}{b^L}$.
+          </p>
+          <p>
+            By Birkhoff&rsquo;s Pointwise Ergodic Theorem applied to the ergodic measure-preserving system $(\mathbb{T}, \mu, T_b)$ and the integrable indicator $\mathbf{1}_{C_w}$, there exists a measurable set $G_{b, L, w} \subseteq \mathbb{T}$ with $\mu(G_{b, L, w}) = 1$ such that for every $x \in G_{b, L, w}$,
+            $$\lim_{n \to \infty} \frac{1}{n} \sum_{i=0}^{n-1} \mathbf{1}_{C_w}\bigl(T_b^i(x)\bigr) = \int_{\mathbb{T}} \mathbf{1}_{C_w}\,d\mu = \mu(C_w) = \frac{1}{b^L}.$$
+            Because $T_b^i(x) \in C_w$ holds whenever the base-$b$ expansion of $x$ has the block $w_1 \dots w_L$ starting at its $(i + 1)$-st digit (and numbers with ambiguous terminating base-$b$ expansions form a countable set of $\mu$-measure zero), this time average gives the asymptotic frequency of the block $w$ in the base-$b$ expansion of $x$.
+          </p>
+          <p>
+            Finally, since there are countably many triples $(b, L, w)$ with $b \ge 2$, $L \ge 1$, and $w \in \{0, 1, \dots, b - 1\}^L$, the intersection
+            $$G = \bigcap_{b \ge 2} \bigcap_{L \ge 1} \bigcap_{w \in \{0, \dots, b-1\}^L} G_{b, L, w}$$
+            also has $\mu(G) = 1$. Every $x \in G$ is normal in every integer base $b \ge 2$, that is, absolutely normal. Extending periodically across integer translates $[m, m + 1)$ ($m \in \mathbb{Z}$) shows that Lebesgue-almost every real number is absolutely normal. <span class="qed">&#9633;</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 6 -->
+      <section id="sec-6">
+        <h2>6. Open Frontiers</h2>
+        <h3>The Almost-Everywhere Bottleneck: Isometry vs. Chaos</h3>
+        <p>
+          A central theme running through our applications is the sharp divide between <em>almost-everywhere</em> statistical guarantees and <em>everywhere</em> deterministic truth. When the underlying map is a rigid isometry (such as the circle rotation $R_{\alpha}$), local neighborhoods remain intact forever, allowing a dense set of typical orbits to control every single point via sandwiching. When the map is expanding and chaotic, however, nearby trajectories diverge rapidly and infinitely many measure-zero exceptional sets persist, leaving two of mathematics&rsquo; most famous problems stuck right at this boundary:
+        </p>
+
+        <div class="frontier-block">
+          <p>
+            <span class="frontier-title">The Normality of Specific Constants ($\pi, e, \sqrt{2}$).</span> While Borel&rsquo;s Normal Number Theorem guarantees that Lebesgue-almost every real number is normal in every integer base, proving that a single naturally occurring irrational constant such as $\pi$, $e$, or $\sqrt{2}$ is normal in base $10$ remains completely open. Unlike the rigid circle rotations $R_{\alpha}$ in Weyl&rsquo;s theorem, the base-$10$ shift $T_{10}(x) = 10x \bmod 1$ stretches small intervals by a factor of ten, shattering local neighborhoods and leaving behind infinitely many measure-zero exceptional orbits (such as periodic rationals). Consequently, Birkhoff&rsquo;s pointwise theorem alone cannot rule out that $\pi$ or $\sqrt{2}$ sits inside an exceptional null set.
+          </p>
+        </div>
+
+        <div class="frontier-block">
+          <p>
+            <span class="frontier-title">The Collatz Conjecture ($3n + 1$).</span> A strikingly parallel barrier between statistical truth and universal certainty appears in the Collatz conjecture, which asserts that iterating $\operatorname{Col}(N) = N/2$ (for even $N$) and $\operatorname{Col}(N) = 3N + 1$ (for odd $N$) eventually reaches $\operatorname{Col}_{\min}(N) := \inf_{n \ge 0} \operatorname{Col}^n(N) = 1$ for every positive integer $N \ge 1$. While the accelerated parity map $T(x) = x/2$ (even $x$) and $T(x) = (3x + 1)/2$ (odd $x$) extends to an ergodic, Haar-measure-preserving transformation on the $2$-adic integers $\mathbb{Z}_2$, the positive integers form a countable null set inside $\mathbb{Z}_2$. By combining $2$-adic and $3$-adic random walk models of the closely related Syracuse iteration, Terence Tao <a href="#ref-tao">[3]</a> proved that for <em>any</em> function $f(N) \to +\infty$ (no matter how slowly growing), $\operatorname{Col}_{\min}(N) \le f(N)$ holds for <em>almost all</em> positive integers in the sense of logarithmic density. Yet because the dynamics mixes division by $2$ with multiplication by $3$ in a chaotic, non-isometric manner, current methods cannot upgrade logarithmic density to <em>every</em> integer, leaving open the possibility of a sparse, density-zero set of divergent orbits or non-trivial cycles.
+          </p>
+        </div>
+      </section>
+
+      <!-- REFERENCES -->
+      <section id="sec-refs" class="references">
+        <h2>References</h2>
+        <ol>
+          <li id="ref-khoshnevisan">
+            D. Khoshnevisan, <em>Normal Numbers are Normal</em>, Lecture Notes, University of Utah.
+          </li>
+          <li id="ref-yunis">
+            D. Yunis, <em>The Birkhoff Ergodic Theorem with Applications</em>, Expository Note.
+          </li>
+          <li id="ref-tao">
+            T. Tao, Almost all orbits of the Collatz map attain almost bounded values, <em>Forum Math. Pi</em> <strong>10</strong> (2022), e12; <a href="https://arxiv.org/abs/1909.03562" target="_blank" rel="noopener">arXiv:1909.03562</a>.
+          </li>
+        </ol>
+
+        <h3>Online References</h3>
+        <div class="online-refs">
+          <ul>
+            <li><a href="https://en.wikipedia.org/wiki/Poincare_recurrence_theorem" target="_blank" rel="noopener">Poincar&eacute; recurrence theorem</a>, Wikipedia.</li>
+            <li><a href="https://en.wikipedia.org/wiki/Measure-preserving_dynamical_system" target="_blank" rel="noopener">Measure-preserving dynamical system</a>, Wikipedia.</li>
+            <li><a href="https://en.wikipedia.org/wiki/Ergodicity" target="_blank" rel="noopener">Ergodicity</a>, Wikipedia.</li>
+            <li><a href="https://en.wikipedia.org/wiki/Ergodic_theory" target="_blank" rel="noopener">Ergodic theory</a> (Birkhoff&rsquo;s pointwise ergodic theorem), Wikipedia.</li>
+            <li><a href="https://en.wikipedia.org/wiki/Diophantine_approximation" target="_blank" rel="noopener">Diophantine approximation</a>, Wikipedia.</li>
+            <li><a href="https://en.wikipedia.org/wiki/Dirichlet%27s_approximation_theorem" target="_blank" rel="noopener">Dirichlet&rsquo;s approximation theorem</a>, Wikipedia.</li>
+            <li><a href="https://en.wikipedia.org/wiki/Equidistributed_sequence" target="_blank" rel="noopener">Equidistributed sequence</a> (Weyl&rsquo;s criterion), Wikipedia.</li>
+            <li><a href="https://en.wikipedia.org/wiki/Parseval%27s_theorem" target="_blank" rel="noopener">Parseval&rsquo;s theorem</a>, Wikipedia.</li>
+            <li><a href="https://en.wikipedia.org/wiki/Normal_number" target="_blank" rel="noopener">Normal number</a>, Wikipedia.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
